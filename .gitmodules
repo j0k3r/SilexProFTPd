@@ -1,0 +1,27 @@
+[submodule "vendor/twig"]
+	path = vendor/twig
+	url = git://github.com/fabpot/Twig.git
+
+[submodule "vendor/monolog"]
+	path = vendor/monolog
+	url = git://github.com/Seldaek/monolog.git
+
+[submodule "web/assets/bootstrap"]
+	path = web/assets/bootstrap
+	url = git://github.com/twitter/bootstrap.git
+
+[submodule "vendor/symfony/src/Symfony/Component/Validator"]
+	path = vendor/symfony/src/Symfony/Component/Validator
+	url = git://github.com/symfony/Validator.git
+
+[submodule "vendor/symfony/src/Symfony/Bridge/Twig"]
+	path = vendor/symfony/src/Symfony/Bridge/Twig
+	url = git://github.com/symfony/TwigBridge.git
+
+[submodule "vendor/Doctrine/dbal"]
+	path = vendor/Doctrine/dbal
+	url = git://github.com/doctrine/dbal.git
+
+[submodule "vendor/Doctrine/common"]
+	path = vendor/Doctrine/common
+	url = git://github.com/doctrine/common.git

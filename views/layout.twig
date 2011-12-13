@@ -1,0 +1,43 @@
+{# layout.twig #}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+    <meta charset="utf-8">
+    <title>SilexProFTPd | {% block title %}{% endblock %}</title>
+    <meta name="author" content="Jeremy Benoist <jeremy.benoist@gmail.com>">
+    <meta name="description" content="This application allows to manage and monitor ProFTPd accounts.">
+    <!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="stylesheet" href="/assets/bootstrap/bootstrap.min.css" type="text/css" media="all">
+    <link rel="stylesheet" href="/assets/style.css" type="text/css" media="all">
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <a class="brand" href="/">SilexProFTPd</a>
+          <ul class="nav">
+            <li {{ active == 'home' ? 'class="active"' : '' }}><a href="/">Home</a></li>
+            <li {{ active == 'user_list' ? 'class="active"' : '' }}><a href="/users">Users list</a></li>
+            <li {{ active == 'user_edit' ? 'class="active"' : '' }}><a href="/user/add">Add user</a></li>
+            <li {{ active == 'history' ? 'class="active"' : '' }}><a href="/history">History</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="content">
+        <div class="page-header">
+          <h1>Manage your ProFTPd server <small>with style and Silex</small></h1>
+        </div>
+
+        {% block content %}{% endblock %}
+
+      </div>
+      <footer>Would you like to improve it ? Just <a href="https://github.com/j0k3r/SilexProFTPd">fork it on GitHub</a> !</footer>
+    </div>
+  </body>
+</html>

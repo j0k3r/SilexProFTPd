@@ -1,0 +1,46 @@
+{# index.twig #}
+{% extends 'layout.twig' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+  <div class="row">
+    <div class="span12">
+      <h2>Last activity <small>10 entries</small></h2>
+      <br/>
+
+      <table class="bordered-table zebra-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Transfer type</th>
+            <th>Transfer date</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for activity in activities %}
+          <tr>
+            <td>{{ activity.id }}</td>
+            <td>{{ activity.username }}</td>
+            <td>{{ activity.transfertype }}</td>
+            <td>{{ activity.transferdate|distance_of_time_in_words }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="5">Still no activity in the database</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+    <div class="span4">
+      <h3>Some statistics</h3>
+      <ul>
+        <li><b>{{ data.user_active.count }}</b> active users</li>
+        <li><b>{{ data.user_inactive.count }}</b> <em>in</em>active users</li>
+        <li><b>{{ data.transfer.size|byte2size }}</b> data transfered</li>
+        <li><b>{{ data.transfer.time|sec2hms }}</b> time transfer</li>
+        <li><b>{{ data.nb_connexions.sum }}</b> total connexions</li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

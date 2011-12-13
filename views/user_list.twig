@@ -1,0 +1,57 @@
+{# user_list.twig #}
+{% extends 'layout.twig' %}
+{% block title %}User list{% endblock %}
+{% block content %}
+
+  <div class="row">
+    <div class="span16">
+      <h2>User list <small><b>{{ users|length }} users found</b></small></h2>
+      <br/>
+
+      <table id="sort-users" class="bordered-table zebra-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Username</th>
+            <th>Full name</th>
+            <th>Connexions</th>
+            <th>Homedir</th>
+            <th>Last login</th>
+            <th>Valid</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+          <tr {{ user.valid ? '' : 'class="not-valid"' }}>
+            <td>{{ user.id }}</td>
+            <td>{{ user.username }}</td>
+            <td>{{ user.fullname }}</td>
+            <td>{{ user.count }}</td>
+            <td>{{ user.homedir }}</td>
+            <td>{{ user.lastlogin }}</td>
+            <td class="{{ user.valid ? 'valid-user' : 'not-valid-user' }}"><span>{{ user.valid }}</span></td>
+            <td>
+              <a href="{{ app.url_generator.generate('user_edit', { 'id': user.id }) }}">edit</a>&nbsp;
+              <a href="{{ app.url_generator.generate('user_delete', { 'id': user.id }) }}">delete</a>
+            </td>
+          </tr>
+        {% else %}
+          <tr><td colspan="5">Still no users in the database</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="/assets/jquery.tablesorter.min.js"></script>
+  <script >
+    $(function() {
+      $("table#sort-users").tablesorter({
+        headers: { 8: {sorter: false} }
+      });
+    });
+  </script>
+{% endblock %}

@@ -17,9 +17,8 @@
       <table id="sort-users" class="bordered-table zebra-striped">
         <thead>
           <tr>
-            {% if user is defined %}
-              <th>Id</th>
-            {% else %}
+            <th>Date</th>
+            {% if user is not defined %}
               <th>Username</th>
             {% endif %}
             <th>Filename</th>
@@ -27,23 +26,26 @@
             <th>Transfersize</th>
             <th>Transferhost</th>
             <th>Transfertime</th>
-            <th>Transferdate</th>
           </tr>
         </thead>
         <tbody>
         {% for history in histories %}
           <tr>
-            {% if user is defined %}
-              <td>{{ history.id }}</td>
-            {% else %}
+            <td>{{ history.transferdate }}</td>
+            {% if user is not defined %}
               <td><a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a></td>
             {% endif %}
-            <td>{{ history.filename }}</td>
+            <td style="word-break: break-all;">
+              {% if history.filename|length > 50%}
+                {{ history.filename|trunk_tooltip|raw }}
+              {% else %}
+                {{ history.filename }}
+              {% endif %}
+            </td>
             <td>{{ history.transfertype }}</td>
             <td>{{ history.transfersize|byte2size }}</td>
             <td>{{ history.transferhost }}</td>
             <td>{{ history.transfertime|sec2hms }}</td>
-            <td>{{ history.transferdate }}</td>
           </tr>
         {% else %}
           <tr><td colspan="7">Still no history in the database</td></tr>
@@ -55,10 +57,13 @@
   </div>
 
   <script type="text/javascript" src="/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/bootstrap/js/bootstrap-twipsy.js"></script>
+  <script type="text/javascript" src="/assets/bootstrap/js/bootstrap-popover.js"></script>
   <script type="text/javascript" src="/assets/jquery.tablesorter.min.js"></script>
   <script >
     $(function() {
-
+      $("table#sort-users").tablesorter();
+      $('.tooltip').popover();
     });
   </script>
 {% endblock %}

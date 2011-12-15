@@ -125,6 +125,16 @@ function distance_of_time_in_words($from_time, $to_time = null, $include_seconds
   return strtr($string . ' ago', $parameters);
 }
 
+function trunk_tooltip($string)
+{
+  preg_match('/\/(\w+-?)*\.([a-z]{2,4})\/www\/(.*)\/(.*)/', $string, $matches);
+
+  $newString = '/'.$matches[1].'.'.$matches[2].'/.../'.$matches[count($matches)-1];
+
+  return '<span class="tooltip" data-content="'.$string.'" data-original-title="Full filename">'.$newString.'</span>';
+}
+
 $app['twig']->addFilter('byte2size', new Twig_Filter_Function('byte2size'));
 $app['twig']->addFilter('sec2hms', new Twig_Filter_Function('sec2hms'));
 $app['twig']->addFilter('distance_of_time_in_words', new Twig_Filter_Function('distance_of_time_in_words'));
+$app['twig']->addFilter('trunk_tooltip', new Twig_Filter_Function('trunk_tooltip'));

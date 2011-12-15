@@ -49,6 +49,7 @@
         {{ form_rest(form) }}
 
         <div class="actions">
+          <a class="btn" href="{{ app.url_generator.generate('user_list') }}">Back to users list</a>
           <input type="submit" value="Add" class="btn primary">
         </div>
       </form>
@@ -57,6 +58,6 @@
   </div>
 
   <script type="text/javascript" src="/assets/jquery.min.js"></script>
-  <script type="text/javascript" src="/assets/bootstrap-alerts.js"></script>
+  <script type="text/javascript" src="/assets/bootstrap/js/bootstrap-alerts.js"></script>
 
 {% endblock %}

@@ -185,7 +185,7 @@ $app->get('/', function() use ($app) {
     'nb_connexions'  => $app['db']->fetchAssoc("SELECT SUM(count) as sum FROM `users`")
   );
 
-  $activities = $app['db']->fetchAll('SELECT id, username, transfertype, transferdate FROM `history` ORDER BY id DESC LIMIT 0, 10');
+  $activities = $app['db']->fetchAll('SELECT h.id, h.username, h.transfertype, h.transferdate, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY id DESC LIMIT 0, 10');
 
   return $app['twig']->render('index.twig', array('data' => $data, 'activities' => $activities, 'active' => 'home'));
 })->bind('homepage');

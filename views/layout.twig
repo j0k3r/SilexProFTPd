@@ -34,10 +34,19 @@
           <h1>Manage your ProFTPd server <small>with style and Silex</small></h1>
         </div>
 
+        {% if app.session.hasFlash('notice') %}
+          <div class="alert-message success fade in" data-alert="alert">
+            <a href="#" class="close">×</a>
+            <p>
+              {{ app.session.flash('notice') }}
+            </p>
+          </div>
+        {% endif %}
+
         {% block content %}{% endblock %}
 
       </div>
-      <footer>Would you like to improve it ? Just <a href="https://github.com/j0k3r/SilexProFTPd">fork it on GitHub</a> !</footer>
+      <footer>SilexProFTPd is <a href="https://github.com/j0k3r/SilexProFTPd">hosted on GitHub</a>. Feel free to contribute !</footer>
     </div>
   </body>
 </html>

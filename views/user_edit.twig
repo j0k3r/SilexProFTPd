@@ -1,0 +1,60 @@
+{# index.twig #}
+{% extends 'layout.twig' %}
+{% block title %}User: {{ user.username }}{% endblock %}
+{% block content %}
+
+  <div class="row">
+    <div class="span12">
+      <h2>User: {{ user.username }} <small>Last login at {{ user.lastlogin|date('d/m/Y') }}</small></h2>
+      <br/>
+
+      <form action="" method="post">
+        {{ form_errors(form) }}
+
+        <div class="clearfix">
+          {{ form_label(form.username) }}
+          <div class="input">
+            {{ form_widget(form.username, { "attr": { "class": "large" } }) }}
+          </div>
+        </div>
+
+        <div class="clearfix">
+          {{ form_label(form.passwd) }}
+          <div class="input">
+            {{ form_widget(form.passwd, { "attr": { "class": "large" } }) }}
+          </div>
+        </div>
+
+        <div class="clearfix">
+          {{ form_label(form.homedir) }}
+          <div class="input">
+            {{ form_widget(form.homedir, { "attr": { "class": "large" } }) }}
+          </div>
+        </div>
+
+        <div class="clearfix">
+          {{ form_label(form.email) }}
+          <div class="input">
+            {{ form_widget(form.email, { "attr": { "class": "large" } }) }}
+          </div>
+        </div>
+
+        {{ form_rest(form) }}
+
+        <div class="actions">
+          <input type="submit" value="Update" class="btn primary">
+        </div>
+      </form>
+
+    </div>
+    <div class="span4">
+      <h3>Actions related</h3>
+      <p><a class="btn info" href="{{ app.url_generator.generate('user_delete', { 'id': user.id }) }}">View last activity</a></p>
+      <p><a class="btn danger" href="{{ app.url_generator.generate('user_delete', { 'id': user.id }) }}">Delete user</a></p>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/bootstrap-alerts.js"></script>
+
+{% endblock %}

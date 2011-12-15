@@ -25,3 +25,9 @@
 [submodule "vendor/Doctrine/common"]
 	path = vendor/Doctrine/common
 	url = git://github.com/doctrine/common.git
+[submodule "vendor/symfony/src/Symfony/Component/Form"]
+	path = vendor/symfony/src/Symfony/Component/Form
+	url = git://github.com/symfony/Form.git
+[submodule "vendor/symfony/src/Symfony/Component/Translation"]
+	path = vendor/symfony/src/Symfony/Component/Translation
+	url = git://github.com/symfony/Translation.git

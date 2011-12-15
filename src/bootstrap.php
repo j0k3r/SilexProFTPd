@@ -5,18 +5,33 @@ require_once __DIR__.'/../vendor/silex.phar';
 $app = new Silex\Application();
 $app['debug'] = true;
 
+use Silex\Bridge\Twig;
+use Silex\Provider\SymfonyBridgesServiceProvider;
+use Silex\Provider\FormServiceProvider;
+use Silex\Provider\SessionServiceProvider;
 use Silex\Provider\TwigServiceProvider;
 use Silex\Provider\ValidatorServiceProvider;
 use Silex\Provider\MonologServiceProvider;
+use Silex\Provider\TranslationServiceProvider;
 
-use Symfony\Component\Validator\Constraints;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+$app->register(new Silex\Provider\SessionServiceProvider());
+
+$app->register(new TranslationServiceProvider(), array(
+  'translation.class_path'  => __DIR__.'/../vendor/symfony/src',
+  'translator.messages'     => array()
+));
+
+$app->register(new Silex\Provider\SymfonyBridgesServiceProvider(), array(
+  'symfony_bridges.class_path'  => __DIR__.'/../vendor/Symfony/src',
+));
+
+$app->register(new FormServiceProvider(), array(
+  'form.class_path'   => __DIR__ . '/../vendor/Symfony/src'
+));
 
 // Register Symfony Validator component extension
 $app->register(new ValidatorServiceProvider(), array(
-  'validator.class_path'   => __DIR__ . '/../vendor/Symfony/src'
+  'validator.class_path'  => __DIR__ . '/../vendor/Symfony/src'
 ));
 
 // Register Twig extension

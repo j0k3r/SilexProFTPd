@@ -33,7 +33,7 @@
             <td class="{{ user.valid ? 'valid-user' : 'not-valid-user' }}"><span>{{ user.valid }}</span></td>
             <td>
               <a href="{{ app.url_generator.generate('user_edit', { 'id': user.id }) }}">edit</a>&nbsp;
-              <a href="{{ app.url_generator.generate('user_delete', { 'id': user.id }) }}">delete</a>
+              <a class="delete-user" href="{{ app.url_generator.generate('user_delete', { 'id': user.id }) }}">delete</a>
             </td>
           </tr>
         {% else %}
@@ -45,13 +45,16 @@
     </div>
   </div>
 
-  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script src="/assets/jquery.tablesorter.min.js"></script>
+  <script type="text/javascript" src="/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/jquery.tablesorter.min.js"></script>
   <script >
     $(function() {
       $("table#sort-users").tablesorter({
         headers: { 8: {sorter: false} }
       });
+      $('a.delete-user').click(function() {
+        return confirm('Do you really want to delete this user ?');
+      })
     });
   </script>
 {% endblock %}

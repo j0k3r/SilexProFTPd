@@ -3,7 +3,8 @@
 require_once __DIR__.'/../vendor/silex.phar';
 
 $app = new Silex\Application();
-$app['debug'] = true;
+
+require __DIR__ . '/config.php';
 
 use Silex\Bridge\Twig;
 use Silex\Provider\SymfonyBridgesServiceProvider;
@@ -46,9 +47,9 @@ require_once __DIR__.'/customTwigFilter.php';
 // Register Monolog extension
 $app->register(new MonologServiceProvider(), array(
   'monolog.class_path'    => __DIR__ . '/../vendor/monolog/src',
-  'monolog.logfile'       => __DIR__ . '/../log/silexproftpd.log',
-  'monolog.name'          => 'silexproftpd',
-  'monolog.level'         => 300
+  'monolog.logfile'       => __DIR__ . '/../log/'.$app['monolog.filename'].'.log',
+  'monolog.name'          => $app['monolog.filename'],
+  'monolog.level'         => $app['monolog.loglevel']
 ));
 
 // Register UrlGenerator
@@ -57,11 +58,11 @@ $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 // Register Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
   'db.options'  => array(
-    'driver'  => 'pdo_mysql',
-    'host'    => 'localhost',
-    'dbname'  => 'ftp',
-    'user'    => 'root',
-    'password'=> 'root'
+    'driver'  => $app['db.config.driver'],
+    'host'    => $app['db.config.host'],
+    'dbname'  => $app['db.config.dbname'],
+    'user'    => $app['db.config.user'],
+    'password'=> $app['db.config.password']
   ),
   'db.dbal.class_path'    => __DIR__.'/../vendor/Doctrine/dbal/lib',
   'db.common.class_path'  => __DIR__.'/../vendor/Doctrine/common/lib',

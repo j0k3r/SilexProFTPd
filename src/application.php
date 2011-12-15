@@ -157,6 +157,24 @@ $app->get('/users', function() use ($app) {
   return $app['twig']->render('user_list.twig', array('users' => $users, 'active' => 'user_list'));
 })->bind('user_list');
 
+// History
+$app->get('/history', function() use ($app) {
+  $sql       = "SELECT *, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY h.id DESC LIMIT 100";
+  $histories = $app['db']->fetchAll($sql);
+
+  return $app['twig']->render('history.twig', array('histories' => $histories, 'active' => 'history'));
+})->bind('history');
+
+// User history
+$app->get('/user/{id}/history', function($id) use ($app) {
+  $sql    = "SELECT * FROM `users` WHERE id = ?";
+  $user   = $app['db']->fetchAssoc($sql, array((int) $id));
+
+  $sql        = "SELECT * FROM `history` WHERE username = ? ORDER BY id DESC LIMIT 100";
+  $histories  = $app['db']->fetchAll($sql, array($user['username']));
+
+  return $app['twig']->render('history.twig', array('histories' => $histories, 'user' => $user, 'active' => 'history'));
+})->bind('user_history');
 
 // homepage + statistics
 $app->get('/', function() use ($app) {

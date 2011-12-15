@@ -1,0 +1,64 @@
+{# user_list.twig #}
+{% extends 'layout.twig' %}
+{% block title %}History{% endblock %}
+{% block content %}
+
+  <div class="row">
+    <div class="span16">
+      <h2>
+        History <small><b>{{ histories|length }} actions found
+        {% if user is defined %}
+          from user `<a href="{{ app.url_generator.generate('user_edit', { 'id': user.id }) }}">{{ user.username }}</a>`
+        {% endif %}
+        </b></small>
+      </h2>
+      <br/>
+
+      <table id="sort-users" class="bordered-table zebra-striped">
+        <thead>
+          <tr>
+            {% if user is defined %}
+              <th>Id</th>
+            {% else %}
+              <th>Username</th>
+            {% endif %}
+            <th>Filename</th>
+            <th>Transfertype</th>
+            <th>Transfersize</th>
+            <th>Transferhost</th>
+            <th>Transfertime</th>
+            <th>Transferdate</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for history in histories %}
+          <tr>
+            {% if user is defined %}
+              <td>{{ history.id }}</td>
+            {% else %}
+              <td><a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a></td>
+            {% endif %}
+            <td>{{ history.filename }}</td>
+            <td>{{ history.transfertype }}</td>
+            <td>{{ history.transfersize|byte2size }}</td>
+            <td>{{ history.transferhost }}</td>
+            <td>{{ history.transfertime|sec2hms }}</td>
+            <td>{{ history.transferdate }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="7">Still no history in the database</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/jquery.tablesorter.min.js"></script>
+  <script >
+    $(function() {
+
+    });
+  </script>
+{% endblock %}

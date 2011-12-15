@@ -17,21 +17,21 @@ use Silex\Provider\TranslationServiceProvider;
 $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->register(new TranslationServiceProvider(), array(
-  'translation.class_path'  => __DIR__.'/../vendor/Symfony/src',
+  'translation.class_path'  => __DIR__.'/../vendor/symfony/src',
   'translator.messages'     => array()
 ));
 
 $app->register(new Silex\Provider\SymfonyBridgesServiceProvider(), array(
-  'symfony_bridges.class_path'  => __DIR__.'/../vendor/Symfony/src',
+  'symfony_bridges.class_path'  => __DIR__.'/../vendor/symfony/src',
 ));
 
 $app->register(new FormServiceProvider(), array(
-  'form.class_path'   => __DIR__ . '/../vendor/Symfony/src'
+  'form.class_path'   => __DIR__ . '/../vendor/symfony/src'
 ));
 
 // Register Symfony Validator component extension
 $app->register(new ValidatorServiceProvider(), array(
-  'validator.class_path'  => __DIR__ . '/../vendor/Symfony/src'
+  'validator.class_path'  => __DIR__ . '/../vendor/symfony/src'
 ));
 
 // Register Twig extension

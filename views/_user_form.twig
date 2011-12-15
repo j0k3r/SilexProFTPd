@@ -1,0 +1,49 @@
+{# _user_form.twig #}
+
+  {{ form_errors(form) }}
+
+  <div class="clearfix">
+    {{ form_label(form.fullname) }}
+    <div class="input">
+      {{ form_widget(form.fullname, { "attr": { "class": "large" } }) }}
+    </div>
+  </div>
+
+  <div class="clearfix">
+    {{ form_label(form.username) }}
+    <div class="input">
+      {{ form_widget(form.username, { "attr": { "class": "large" } }) }}
+    </div>
+  </div>
+
+  <div class="clearfix">
+    {{ form_label(form.passwd) }}
+    <div class="input">
+      {{ form_widget(form.passwd, { "attr": { "class": "large" } }) }}
+    </div>
+  </div>
+
+  <div class="clearfix">
+    {{ form_label(form.homedir) }}
+    <div class="input">
+      {{ form_widget(form.homedir, { "attr": { "class": "large" } }) }}
+    </div>
+  </div>
+
+  <div class="clearfix">
+    {{ form_label(form.email) }}
+    <div class="input">
+      {{ form_widget(form.email, { "attr": { "class": "large" } }) }}
+    </div>
+  </div>
+
+  {% if form.valid is defined %}
+    <div class="clearfix">
+      {{ form_label(form.valid) }}
+      <div class="input">
+        {{ form_widget(form.valid, { "attr": { "class": "large" } }) }}
+      </div>
+    </div>
+  {% endif %}
+
+  {{ form_rest(form) }}

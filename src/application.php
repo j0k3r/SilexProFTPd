@@ -6,8 +6,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 
-// Add an user
-$app->match('/user/add', function () use ($app) {
+// New user
+$app->match('/user/new', function () use ($app) {
   $constraint = new Assert\Collection(array(
     'fields' => array(
       'username'  => new Assert\NotBlank(),
@@ -63,8 +63,8 @@ $app->match('/user/add', function () use ($app) {
     }
   }
 
-  return $app['twig']->render('user_add.twig', array('form' => $form->createView(), 'active' => 'user_add'));
-})->bind('user_add');
+  return $app['twig']->render('user_new.twig', array('form' => $form->createView(), 'active' => 'user_new'));
+})->bind('user_new');
 
 // Edit an user
 $app->match('/user/{id}/edit', function ($id) use ($app) {
@@ -92,6 +92,7 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
   $builder = $app['form.factory']->createBuilder('form', $datas, array('validation_constraint' => $constraint));
 
   $form = $builder
+    ->add('fullname', 'text', array('label' => 'Fullname'))
     ->add('username', 'text', array('label' => 'Username'))
     ->add('passwd', 'password', array('label' => 'Password', 'required' => false))
     ->add('homedir', 'text', array('label' => 'Home dir'))

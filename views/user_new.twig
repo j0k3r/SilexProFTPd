@@ -1,0 +1,26 @@
+{# user_new.twig #}
+{% extends 'layout.twig' %}
+{% block title %}New user{% endblock %}
+{% block content %}
+
+  <div class="row">
+    <div class="span12">
+      <h2>New user</h2>
+      <br/>
+
+      <form action="" method="post">
+        {% include '_user_form.twig' %}
+
+        <div class="actions">
+          <a class="btn" href="{{ app.url_generator.generate('user_list') }}">Back to users list</a>
+          <input type="submit" value="Add" class="btn primary">
+        </div>
+      </form>
+
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/bootstrap/js/bootstrap-alerts.js"></script>
+
+{% endblock %}

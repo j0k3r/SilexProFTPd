@@ -6,7 +6,6 @@ $app = new Silex\Application();
 
 require __DIR__ . '/config.php';
 
-use Silex\Bridge\Twig;
 use Silex\Provider\SymfonyBridgesServiceProvider;
 use Silex\Provider\FormServiceProvider;
 use Silex\Provider\SessionServiceProvider;
@@ -18,7 +17,7 @@ use Silex\Provider\TranslationServiceProvider;
 $app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->register(new TranslationServiceProvider(), array(
-  'translation.class_path'  => __DIR__.'/../vendor/symfony/src',
+  'translation.class_path'  => __DIR__.'/../vendor/Symfony/src',
   'translator.messages'     => array()
 ));
 
@@ -37,7 +36,7 @@ $app->register(new ValidatorServiceProvider(), array(
 
 // Register Twig extension
 $app->register(new TwigServiceProvider(), array(
-  'twig.class_path'    => __DIR__ . '/../vendor/Twig/lib',
+  'twig.class_path'    => __DIR__ . '/../vendor/twig/lib',
   'twig.path'          => __DIR__ . '/../views',
   'twig.options'       => array('strict_variables' => false)
 ));

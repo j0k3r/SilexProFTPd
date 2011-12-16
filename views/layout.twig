@@ -23,6 +23,7 @@
             <li {{ active == 'home' ? 'class="active"' : '' }}><a href="/">Home</a></li>
             <li {{ active == 'user_list' ? 'class="active"' : '' }}><a href="{{ app.url_generator.generate('user_list') }}">Users list</a></li>
             <li {{ active == 'transfer' ? 'class="active"' : '' }}><a href="{{ app.url_generator.generate('history') }}">View transfer</a></li>
+            <li {{ active == 'error' ? 'class="active"' : '' }}><a href="{{ app.url_generator.generate('error') }}">Error log</a></li>
           </ul>
         </div>
       </div>

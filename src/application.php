@@ -257,6 +257,14 @@ $app->get('/transfer/{id}/{filename}', function($filename, $id) use ($app) {
 })->assert('filename', '.*')
   ->bind('file_transfer');
 
+// Error log
+$app->get('/error', function() use ($app) {
+  $sql          = "SELECT ue.*, ue.id as user_event_id, u.fullname, u.id as user_id FROM users u, userevents ue WHERE u.username = ue.username ORDER BY ue.id DESC LIMIT 100";
+  $user_events  = $app['db']->fetchAll($sql);
+
+  return $app['twig']->render('error.twig', array('user_events' => $user_events, 'active' => 'error'));
+})->bind('error');
+
 
 // homepage + statistics
 $app->get('/', function() use ($app) {

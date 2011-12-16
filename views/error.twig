@@ -1,0 +1,56 @@
+{# error.twig #}
+{% extends 'layout.twig' %}
+{% block title %}Error log{% endblock %}
+{% block content %}
+
+  <div class="row">
+    <div class="span12">
+      <h2>Error log</h2>
+      <br/>
+
+      <table id="sort-users" class="bordered-table zebra-striped">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>User</th>
+            <th>Filename</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for user_event in user_events %}
+          <tr>
+            <td>{{ user_event.user_event_id }}</td>
+            <td><a href="{{ app.url_generator.generate('user_edit', { 'id': event.user_id }) }}">{{ user_event.username }}</a></td>
+            <td>{{ user_event.description }}</td>
+            <td>{{ user_event.eventdate }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="4">Great ! No errors in the database</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+    <div class="span4 section-toc" style="top: 50px; left: 946px; position: static; margin-top: 0px;">
+      <h3>FTP commands</h3>
+      <li><em>FEAT</em>: Feature Negotiation</li>
+      <li><em>MLSD</em>: List Directory</li>
+      <li><em>STOR</em>: Store</li>
+      <li><em>RETR</em>: Retrieve</li>
+      <li><em>MKD</em>: Make Directory</li>
+      <li><em>DELE</em>: Delete File</li>
+      <li><em>RNTO</em>: Rename From</li>
+      <li><a href="http://www.iana.org/assignments/ftp-commands-extensions/ftp-commands-extensions.xml">All commands description</a></li>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/application.js"></script>
+  <script type="text/javascript" src="/assets/jquery.tablesorter.min.js"></script>
+  <script >
+    $(function() {
+      $("table#sort-users").tablesorter();
+    });
+  </script>
+{% endblock %}

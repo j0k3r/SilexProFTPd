@@ -14,9 +14,9 @@
             <th>#</th>
             <th>Username</th>
             <th>Full name</th>
-            <th>Connexions</th>
-            <th>Homedir</th>
+            <th>Login Count</th>
             <th>Last login</th>
+            <th>Transfer Size</th>
             <th>Valid</th>
             <th>Actions</th>
           </tr>
@@ -28,8 +28,8 @@
             <td>{{ user.username }}</td>
             <td>{{ user.fullname }}</td>
             <td>{{ user.count }}</td>
-            <td>{{ user.homedir }}</td>
             <td>{{ user.lastlogin }}</td>
+            <td>{{ user.historySizeCount|byte2size }}</td>
             <td class="{{ user.valid ? 'valid-user' : 'not-valid-user' }}"><span>{{ user.valid }}</span></td>
             <td>
               <a href="{{ app.url_generator.generate('user_edit', { 'id': user.id }) }}">edit</a>&nbsp;

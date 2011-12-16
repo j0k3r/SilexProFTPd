@@ -97,7 +97,7 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
     ->add('passwd', 'password', array('label' => 'Password', 'required' => false))
     ->add('homedir', 'text', array('label' => 'Home dir'))
     ->add('email', 'email', array('label' => 'Email', 'required' => false))
-    ->add('valid', 'checkbox', array('label' => 'Is valid ?', 'required' => false))
+    ->add('valid', 'checkbox', array('label' => 'Account valid ?', 'required' => false))
     ->getForm()
   ;
 
@@ -135,10 +135,13 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
     }
   }
 
+  $data = array(
+    'uploaded' => $app['db']->fetchAssoc("SELECT SUM(transfersize) AS nb FROM `history` WHERE username = ? AND transfertype = 'STOR'", array($user['username'])),
+    'download' => $app['db']->fetchAssoc("SELECT SUM(transfersize) AS nb FROM `history` WHERE username = ? AND transfertype = 'RETR'", array($user['username'])),
+    'transfer' => $app['db']->fetchAssoc("SELECT COUNT(h.id) as nb, SUM(h.transfersize) as size, SUM(h.transfertime) as time FROM `history` h LEFT JOIN `users` u ON u.username = h.username WHERE u.id = ?", array((int) $id))
+  );
 
-  $transfer = $app['db']->fetchAssoc("SELECT COUNT(h.id) as nb, SUM(h.transfersize) as size, SUM(h.transfertime) as time FROM `history` h LEFT JOIN `users` u ON u.username = h.username WHERE u.id = ?", array((int) $id));
-
-  return $app['twig']->render('user_edit.twig', array('form' => $form->createView(), 'user' => $user, 'transfer' => $transfer, 'active' => 'user_list'));
+  return $app['twig']->render('user_edit.twig', array('form' => $form->createView(), 'user' => $user, 'data' => $data, 'active' => 'user_list'));
 })->assert('id', '\d+')
   ->bind('user_edit');
 
@@ -146,13 +149,18 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
 $app->get('/user/{id}/delete', function ($id) use ($app) {
   $app['db']->delete('users', array('id' => (int) $id));
 
+  $app['session']->setFlash('notice', 'User deleted !');
+
   return $app->redirect($app['url_generator']->generate('user_list'));
 })->assert('id', '\d+')
   ->bind('user_delete');
 
 // User listing (edit & delete)
 $app->get('/users', function() use ($app) {
-  $sql    = "SELECT * FROM users";
+  $sql = "SELECT u.id, u.username, u.lastlogin, u.valid, u.count, u.fullname, SUM(h.transfersize) AS historySizeCount ";
+  $sql .= "FROM users u LEFT OUTER JOIN history h ON h.username = u.username ";
+  $sql .= "GROUP BY u.username, u.lastlogin, u.count, u.fullname, u.valid ";
+  $sql .= "ORDER BY u.lastlogin DESC";
   $users  = $app['db']->fetchAll($sql);
 
   return $app['twig']->render('user_list.twig', array('users' => $users, 'active' => 'user_list'));
@@ -180,10 +188,12 @@ $app->get('/user/{id}/history', function($id) use ($app) {
 // homepage + statistics
 $app->get('/', function() use ($app) {
   $data = array(
-    'transfer'       => $app['db']->fetchAssoc("SELECT COUNT(id) as nb, SUM(transfersize) as size, SUM(transfertime) as time FROM `history`"),
-    'user_active'    => $app['db']->fetchAssoc("SELECT count(id) as count FROM `users` WHERE valid = 1"),
-    'user_inactive'  => $app['db']->fetchAssoc("SELECT count(id) as count FROM `users` WHERE valid != 1"),
-    'nb_connexions'  => $app['db']->fetchAssoc("SELECT SUM(count) as sum FROM `users`")
+    'transfer'      => $app['db']->fetchAssoc("SELECT COUNT(id) as nb, SUM(transfersize) as size, SUM(transfertime) as time FROM `history`"),
+    'user_active'   => $app['db']->fetchAssoc("SELECT count(id) as count FROM `users` WHERE valid = 1"),
+    'user_inactive' => $app['db']->fetchAssoc("SELECT count(id) as count FROM `users` WHERE valid != 1"),
+    'nb_connexions' => $app['db']->fetchAssoc("SELECT SUM(count) as sum FROM `users`"),
+    'uploaded'      => $app['db']->fetchAssoc("SELECT SUM(transfersize) AS nb FROM `history` WHERE transfertype = 'STOR'"),
+    'download'      => $app['db']->fetchAssoc("SELECT SUM(transfersize) AS nb FROM `history` WHERE transfertype = 'RETR'"),
   );
 
   $activities = $app['db']->fetchAll('SELECT h.id, h.username, h.transfertype, h.transferdate, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY id DESC LIMIT 0, 10');

@@ -37,10 +37,12 @@
       <ul>
         <li><b>{{ data.user_active.count }}</b> active users</li>
         <li><b>{{ data.user_inactive.count }}</b> <em>in</em>active users</li>
-        <li><b>{{ data.transfer.size|byte2size }}</b> data transfered</li>
         <li><b>{{ data.transfer.time|sec2hms }}</b> time transfer</li>
         <li><b>{{ data.nb_connexions.sum }}</b> total connexions</li>
         <li><b>{{ data.transfer.nb }}</b> total activities</li>
+        <li><b>{{ data.transfer.size|byte2size }}</b> data transfered</li>
+        <li><b>{{ data.uploaded.nb|byte2size }}</b> uploaded</li>
+        <li><b>{{ data.download.nb|byte2size }}</b> downloaded</li>
       </ul>
 
       <br/>

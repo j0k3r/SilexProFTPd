@@ -10,7 +10,7 @@
         {% if user.lastlogin is empty %}
           <small>Never logged in</small>
         {% else %}
-          <small>Last login at {{ user.lastlogin|date('d/m/Y') }}</small>
+          <small>Last login at {{ user.lastlogin|date('d/m/Y H:i:s') }}</small>
         {% endif %}
       </h2>
       <br/>
@@ -30,11 +30,12 @@
     </div>
     <div class="span4">
       <h3>Some statistics</h3>
-      <li><b>{{ transfer.size|byte2size }}</b> data transfered</li>
-      <li><b>{{ transfer.time|sec2hms }}</b> time transfer</li>
+      <li><b>{{ data.transfer.time|sec2hms }}</b> time transfer</li>
       <li><b>{{ user.count }}</b> total connexions</li>
-      <li><b>{{ transfer.nb }}</b> total activities</li>
-
+      <li><b>{{ data.transfer.nb }}</b> total activities</li>
+      <li><b>{{ data.transfer.size|byte2size }}</b> data transfered</li>
+      <li><b>{{ data.uploaded.nb|byte2size }}</b> uploaded</li>
+      <li><b>{{ data.download.nb|byte2size }}</b> downloaded</li>
       <br/>
 
       <h3>Actions related</h3>

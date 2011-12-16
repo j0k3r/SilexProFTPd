@@ -44,7 +44,7 @@
             </td>
           </tr>
         {% else %}
-          <tr><td colspan="5">Still no users in the database</td></tr>
+          <tr><td colspan="8">Still no users in the database. Why not <a href="{{ app.url_generator.generate('user_new') }}">create a new one</a> ?</td></tr>
         {% endfor %}
         </tbody>
       </table>

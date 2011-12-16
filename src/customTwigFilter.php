@@ -127,9 +127,9 @@ function distance_of_time_in_words($from_time, $to_time = null, $include_seconds
 
 function trunk_tooltip($string)
 {
-  preg_match('/\/(\w+-?)*\.([a-z]{2,4})\/www\/(.*)\/(.*)/', $string, $matches);
+  preg_match('/\/([a-zA-Z.-]*)\/(.*)\/(.*)/i', $string, $matches);
 
-  $newString = '/'.$matches[1].'.'.$matches[2].'/.../'.$matches[count($matches)-1];
+  $newString = '/'.$matches[1].'/.../'.$matches[count($matches)-1];
 
   return '<span class="tooltip" data-content="'.$string.'" data-original-title="Full filename">'.$newString.'</span>';
 }

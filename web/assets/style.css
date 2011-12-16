@@ -68,3 +68,7 @@ footer {
 .popover .inner {
   width: auto;
 }
+
+li.arrow-up img, li.arrow-down img {
+  vertical-align: middle;
+}

@@ -13,3 +13,6 @@ $app['debug'] = true;
 // Log
 $app['monolog.filename']    = 'silexproftpd';
 $app['monolog.loglevel']    = 300;
+
+// Crypt/hash method (only SQL function accepted for now)
+$app['hash_method']         = 'ENCRYPT';

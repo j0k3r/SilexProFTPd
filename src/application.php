@@ -46,7 +46,7 @@ $app->match('/user/new', function () use ($app) {
       }
       else
       {
-        $sql  = "INSERT INTO `users` (`username`, `passwd`, `fullname`, `homedir`, `email`, `valid`) VALUES (?, ENCRYPT(?), ?, ?, ?, 1)";
+        $sql  = "INSERT INTO `users` (`username`, `passwd`, `fullname`, `homedir`, `email`, `valid`) VALUES (?, ".$app['hash_method']."(?), ?, ?, ?, 1)";
         $app['db']->executeQuery(
           $sql,
           array(
@@ -132,7 +132,7 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
         $sql = "UPDATE `users` SET ";
         if(null !== $form->get('passwd')->getData())
         {
-          $sql = "passwd = ENCRYPT(?), ";
+          $sql = "passwd = ".$app['hash_method']."(?), ";
           $params = array_merge(array($form->get('passwd')->getData()), $params);
         }
         $sql .= "fullname = ?, email = ?, valid = ?, homedir = ?, username = ? WHERE id = ?";
@@ -250,7 +250,7 @@ $app->get('/transfer/{id}/view', function($id) use ($app) {
 
 // File view
 $app->get('/transfer/{id}/{filename}', function($filename, $id) use ($app) {
-  $sql            = "SELECT u.id AS user_id, u.fullname, u.username, h.transferdate, h.transferhost, h.id AS history_id, h.transfertype FROM history h, users u WHERE u.username = h.username AND h.filename = ?";
+  $sql            = "SELECT u.id AS user_id, u.fullname, u.username, h.transferdate, h.transferhost, h.id AS history_id, h.transfertype FROM `history` h, `users` u WHERE u.username = h.username AND h.filename = ?";
   $file_histories = $app['db']->fetchAll($sql, array((string) $filename));
 
   return $app['twig']->render('file_transfer.twig', array('file_histories' => $file_histories, 'filename' => $filename, 'id' => $id, 'active' => 'transfer'));
@@ -260,7 +260,7 @@ $app->get('/transfer/{id}/{filename}', function($filename, $id) use ($app) {
 
 // Error log
 $app->get('/error', function() use ($app) {
-  $sql          = "SELECT ue.*, ue.id as user_event_id, u.fullname, u.id as user_id FROM users u, userevents ue WHERE u.username = ue.username ORDER BY ue.id DESC LIMIT 100";
+  $sql          = "SELECT ue.*, ue.id as user_event_id, u.fullname, u.id as user_id FROM `users` u, `userevents` ue WHERE u.username = ue.username ORDER BY ue.id DESC LIMIT 100";
   $user_events  = $app['db']->fetchAll($sql);
 
   return $app['twig']->render('error.twig', array('user_events' => $user_events, 'active' => 'error'));
@@ -270,7 +270,7 @@ $app->get('/error', function() use ($app) {
 // Most downloaded files
 $app->get('/most-downloaded', function() use ($app) {
   $sql = "SELECT filename, transfertype, transfersize, COUNT(filename) AS historycount, MAX(transferdate) as maxdate ";
-  $sql .= "FROM history WHERE transfertype = 'RETR' ";
+  $sql .= "FROM `history` WHERE transfertype = 'RETR' ";
   $sql .= "GROUP BY filename, transfertype, transfersize HAVING historycount > 1 ORDER BY historycount DESC LIMIT 100";
   $files  = $app['db']->fetchAll($sql);
 

@@ -129,12 +129,13 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
           (int) $id
         );
 
-        $sql = "UPDATE `users` SET fullname = ?, email = ?, valid = ?, homedir = ?, username = ? WHERE id = ?";
+        $sql = "UPDATE `users` SET ";
         if(null !== $form->get('passwd')->getData())
         {
-          $sql = "UPDATE `users` SET passwd = ENCRYPT(?), fullname = ?, email = ?, valid = ?, homedir = ?, username = ? WHERE id = ?";
+          $sql = "passwd = ENCRYPT(?), ";
           $params = array_merge(array($form->get('passwd')->getData()), $params);
         }
+        $sql .= "fullname = ?, email = ?, valid = ?, homedir = ?, username = ? WHERE id = ?";
 
         $app['db']->executeQuery(
           $sql,

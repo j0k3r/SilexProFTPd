@@ -46,15 +46,15 @@ $app->match('/user/new', function () use ($app) {
       }
       else
       {
-        $sql  = "INSERT INTO `users` (`username`, `passwd`, `fullname`, `homedir`, `email`, `valid`) VALUES (?, ?, ?, ?, ?, 1)";
-        $app['db']->insert(
-          'users',
+        $sql  = "INSERT INTO `users` (`username`, `passwd`, `fullname`, `homedir`, `email`, `valid`) VALUES (?, ENCRYPT(?), ?, ?, ?, 1)";
+        $app['db']->executeQuery(
+          $sql,
           array(
-            'username'  => $form->get('username')->getData(),
-            'passwd'    => crypt($form->get('passwd')->getData()),
-            'fullname'  => $form->get('fullname')->getData(),
-            'homedir'   => $form->get('homedir')->getData(),
-            'email'     => $form->get('email')->getData()
+            $form->get('username')->getData(),
+            $form->get('passwd')->getData(),
+            $form->get('fullname')->getData(),
+            $form->get('homedir')->getData(),
+            $form->get('email')->getData()
           )
         );
 
@@ -84,6 +84,7 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
 
   // parse data to give right type to the builder (ie: boolean for `valid` instead of string)
   $datas = array(
+    'fullname'  => $user['fullname'],
     'username'  => $user['username'],
     'passwd'    => $user['passwd'],
     'homedir'   => $user['homedir'],
@@ -119,16 +120,25 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
       }
       else
       {
-        $app['db']->update(
-          'users',
-          array(
-            'username'  => $form->get('username')->getData(),
-            'passwd'    => $form->get('passwd')->getData() === null ? $user['passwd'] : $form->get('passwd')->getData(),
-            'homedir'   => $form->get('homedir')->getData(),
-            'email'     => $form->get('email')->getData(),
-            'valid'     => $form->get('valid')->getData(),
-          ),
-          array('id' => (int) $id)
+        $params = array(
+          $form->get('fullname')->getData(),
+          $form->get('email')->getData(),
+          $form->get('valid')->getData(),
+          $form->get('homedir')->getData(),
+          $form->get('username')->getData(),
+          (int) $id
+        );
+
+        $sql = "UPDATE `users` SET fullname = ?, email = ?, valid = ?, homedir = ?, username = ? WHERE id = ?";
+        if(null !== $form->get('passwd')->getData())
+        {
+          $sql = "UPDATE `users` SET passwd = ENCRYPT(?), fullname = ?, email = ?, valid = ?, homedir = ?, username = ? WHERE id = ?";
+          $params = array_merge(array($form->get('passwd')->getData()), $params);
+        }
+
+        $app['db']->executeQuery(
+          $sql,
+          $params
         );
 
         $app['session']->setFlash('notice', 'User saved !');

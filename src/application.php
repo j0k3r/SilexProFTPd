@@ -145,6 +145,13 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
 })->assert('id', '\d+')
   ->bind('user_edit');
 
+$app->get('/user/{id}/active', function ($id) use ($app) {
+  $app['db']->executeQuery("UPDATE `users` SET valid = !valid WHERE id = ?", array((int) $id));
+
+  return $app->redirect($app['url_generator']->generate('user_list'));
+})->assert('id', '\d+')
+  ->bind('user_active');
+
 // Delete an user
 $app->get('/user/{id}/delete', function ($id) use ($app) {
   $app['db']->delete('users', array('id' => (int) $id));

@@ -56,14 +56,6 @@ tr.not-valid td {
   background: #FFA3AC !important;
 }
 
-td.valid-user {
-  background: transparent url(/assets/images/tick.png) no-repeat 50% 40%;
-}
-
-td.valid-user span, td.not-valid-user span {
-  display: none;
-}
-
 footer {
   text-align: center;
   font-style: italic;

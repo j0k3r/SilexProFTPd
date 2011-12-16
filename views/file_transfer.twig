@@ -1,0 +1,45 @@
+{# file_transfer.twig #}
+{% extends 'layout.twig' %}
+{% block title %}View file transfers{% endblock %}
+{% block content %}
+
+  <div class="row">
+    <div class="span16">
+      <div style="float: right">
+        <a class="btn" href="{{ app.url_generator.generate('history') }}">Back to transfers</a>
+        <a class="btn primary" href="{{ app.url_generator.generate('history_view', { 'id': id }) }}">Back to single logged transfer</a>
+      </div>
+
+      <h2>View file transfers <small>{{ filename }}</small></h2>
+      <br/>
+
+      <table id="sort-users" class="bordered-table zebra-striped">
+        <thead>
+          <tr>
+            <th>T</th>
+            <th>User</th>
+            <th>Date</th>
+            <th>Size</th>
+            <th>Time</th>
+            <th>IP</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for history in file_histories %}
+          <tr>
+            <td>{% if history.transfertype == 'STOR' %} <img src="/assets/images/up.png" /> {% else %} <img src="/assets/images/down.png" /> {% endif %}</td>
+            <td><a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a></td>
+            <td>{{ history.transferdate|date('d/m/Y H:i:s') }}</td>
+            <td>{{ history.transfersize|byte2size }}</td>
+            <td>{{ history.transfertime|sec2hms }}</td>
+            <td>{{ history.transferhost }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="7">Still no history in the database</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+{% endblock %}

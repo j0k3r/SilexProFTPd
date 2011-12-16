@@ -72,3 +72,15 @@ footer {
 li.arrow-up img, li.arrow-down img {
   vertical-align: middle;
 }
+
+span.span-input {
+  height: 18px;
+  padding: 4px;
+  line-height: 21px;
+  display: block;
+  color: gray;
+}
+
+input[type="checkbox"] {
+  margin-top: 9px;
+}

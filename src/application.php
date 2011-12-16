@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
 
+
 // New user
 $app->match('/user/new', function () use ($app) {
   $constraint = new Assert\Collection(array(
@@ -63,8 +64,9 @@ $app->match('/user/new', function () use ($app) {
     }
   }
 
-  return $app['twig']->render('user_new.twig', array('form' => $form->createView(), 'active' => 'user_new'));
+  return $app['twig']->render('user_new.twig', array('form' => $form->createView(), 'active' => 'user_list'));
 })->bind('user_new');
+
 
 // Edit an user
 $app->match('/user/{id}/edit', function ($id) use ($app) {
@@ -145,12 +147,15 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
 })->assert('id', '\d+')
   ->bind('user_edit');
 
+
+// User activate / deactivate
 $app->get('/user/{id}/active', function ($id) use ($app) {
   $app['db']->executeQuery("UPDATE `users` SET valid = !valid WHERE id = ?", array((int) $id));
 
   return $app->redirect($app['url_generator']->generate('user_list'));
 })->assert('id', '\d+')
   ->bind('user_active');
+
 
 // Delete an user
 $app->get('/user/{id}/delete', function ($id) use ($app) {
@@ -161,6 +166,7 @@ $app->get('/user/{id}/delete', function ($id) use ($app) {
   return $app->redirect($app['url_generator']->generate('user_list'));
 })->assert('id', '\d+')
   ->bind('user_delete');
+
 
 // User listing (edit & delete)
 $app->get('/users', function() use ($app) {
@@ -173,24 +179,52 @@ $app->get('/users', function() use ($app) {
   return $app['twig']->render('user_list.twig', array('users' => $users, 'active' => 'user_list'));
 })->bind('user_list');
 
+
 // History
-$app->get('/history', function() use ($app) {
-  $sql       = "SELECT *, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY h.id DESC LIMIT 100";
+$app->get('/transfers', function() use ($app) {
+  $sql       = "SELECT h.*, h.id as history_id, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY h.id DESC LIMIT 100";
   $histories = $app['db']->fetchAll($sql);
 
-  return $app['twig']->render('history.twig', array('histories' => $histories, 'active' => 'history'));
+  return $app['twig']->render('history.twig', array('histories' => $histories, 'active' => 'transfer'));
 })->bind('history');
 
+
 // User history
-$app->get('/user/{id}/history', function($id) use ($app) {
+$app->get('/user/{id}/transfer', function($id) use ($app) {
   $sql    = "SELECT * FROM `users` WHERE id = ?";
   $user   = $app['db']->fetchAssoc($sql, array((int) $id));
 
-  $sql        = "SELECT * FROM `history` WHERE username = ? ORDER BY id DESC LIMIT 100";
+  $sql        = "SELECT *, id as history_id FROM `history` WHERE username = ? ORDER BY id DESC LIMIT 100";
   $histories  = $app['db']->fetchAll($sql, array($user['username']));
 
-  return $app['twig']->render('history.twig', array('histories' => $histories, 'user' => $user, 'active' => 'history'));
-})->bind('user_history');
+  return $app['twig']->render('history.twig', array('histories' => $histories, 'user' => $user, 'active' => 'transfer'));
+})->assert('id', '\d+')
+  ->bind('user_history');
+
+
+// History view
+$app->get('/transfer/{id}/view', function($id) use ($app) {
+  $sql      = "SELECT h.*, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username WHERE h.id = ?";
+  $history  = $app['db']->fetchAssoc($sql, array((int) $id));
+
+  // count how many times the itam has been downloaded
+  $sql      = "SELECT COUNT(id) as nb FROM `history` WHERE filename = ?";
+  $countDL  = $app['db']->fetchAssoc($sql, array($history['filename']));
+
+  return $app['twig']->render('history_view.twig', array('history' => $history, 'countDL' => $countDL, 'active' => 'transfer'));
+})->assert('id', '\d+')
+  ->bind('history_view');
+
+
+// File view
+$app->get('/transfer/{id}/{filename}', function($filename, $id) use ($app) {
+  $sql            = "SELECT u.id AS user_id, u.fullname, u.username, h.transferdate, h.transferhost, h.id AS history_id, h.transfertype FROM history h, users u WHERE u.username = h.username AND h.filename = ?";
+  $file_histories = $app['db']->fetchAll($sql, array((string) $filename));
+
+  return $app['twig']->render('file_transfer.twig', array('file_histories' => $file_histories, 'filename' => $filename, 'id' => $id, 'active' => 'transfer'));
+})->assert('filename', '.*')
+  ->bind('file_transfer');
+
 
 // homepage + statistics
 $app->get('/', function() use ($app) {

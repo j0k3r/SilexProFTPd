@@ -1,0 +1,67 @@
+{# history_view.twig #}
+{% extends 'layout.twig' %}
+{% block title %}Transfer: {{ history.id }}{% endblock %}
+{% block content %}
+
+  <div class="row">
+    <div class="span12">
+      <h2>View single logged transfer <small>on {{ history.transferdate|date('d/m/Y H:i:s') }}</small></h2>
+      <br/>
+
+      <form>
+        <h4>File information</h4>
+        <div class="clearfix">
+          <label>Full filename</label>
+          <div class="input">
+            <span class="span7 span-input">{{ history.filename }}</span>
+          </div>
+        </div>
+        <div class="clearfix">
+          <label>Nb of transfers</label>
+          <div class="input">
+            <span class="span7 span-input">{{ countDL.nb }} (<a href="{{ app.url_generator.generate('file_transfer', { 'filename': history.filename, 'id': history.id }) }}">view file transfer</a>)</span>
+          </div>
+        </div>
+
+        <h4>Transfer information</h4>
+        <div class="clearfix">
+          <label>Transfer size</label>
+          <div class="input">
+            <span class="span7 span-input">{{ history.transfersize|byte2size }}</span>
+          </div>
+        </div>
+        <div class="clearfix">
+          <label>Transfer time</label>
+          <div class="input">
+            <span class="span7 span-input">{{ history.transfertime|sec2hms }}</span>
+          </div>
+        </div>
+        <div class="clearfix">
+          <label>Transfer speed</label>
+          <div class="input">
+            <span class="span7 span-input">
+              {% if (history.transfersize > 0) and (history.transfertime > 0) %}
+                {{ history.transfersize / 1024 // history.transfertime }} kb/s
+              {% else %}
+                -
+              {% endif %}
+            </span>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn" href="{{ app.url_generator.generate('history') }}">Back to transfers</a>
+        </div>
+      </form>
+
+    </div>
+    <div class="span4">
+      <h3>Some informations</h3>
+      <li>
+        {% if history.transfertype == 'RETR' %} Downloaded {% else %} Uploaded {% endif %}
+        by <a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a>
+      </li>
+      <li>From ip <b>{{ history.transferhost }}</b></li>
+    </div>
+  </div>
+
+{% endblock %}

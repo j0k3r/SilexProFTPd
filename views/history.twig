@@ -17,35 +17,29 @@
       <table id="sort-users" class="bordered-table zebra-striped">
         <thead>
           <tr>
-            <th>Date</th>
-            {% if user is not defined %}
-              <th>Username</th>
-            {% endif %}
+            <th>T</th>
+            <th>User</th>
             <th>Filename</th>
-            <th>Transfertype</th>
             <th>Transfersize</th>
-            <th>Transferhost</th>
-            <th>Transfertime</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
         {% for history in histories %}
           <tr>
-            <td>{{ history.transferdate }}</td>
-            {% if user is not defined %}
-              <td><a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a></td>
-            {% endif %}
+            <td>{% if history.transfertype == 'STOR' %} <img src="/assets/images/up.png" /> {% else %} <img src="/assets/images/down.png" /> {% endif %}</td>
+            <td><a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a></td>
             <td style="word-break: break-all;">
-              {% if history.filename|length > 50%}
-                {{ history.filename|trunk_tooltip|raw }}
-              {% else %}
-                {{ history.filename }}
-              {% endif %}
+              <a href="{{ app.url_generator.generate('history_view', { 'id': history.history_id }) }}">
+                {% if history.filename|length > 50%}
+                  {{ history.filename|trunk_tooltip|raw }}
+                {% else %}
+                  {{ history.filename }}
+                {% endif %}
+              </a>
             </td>
-            <td>{{ history.transfertype }}</td>
             <td>{{ history.transfersize|byte2size }}</td>
-            <td>{{ history.transferhost }}</td>
-            <td>{{ history.transfertime|sec2hms }}</td>
+            <td>{{ history.transferdate }}</td>
           </tr>
         {% else %}
           <tr><td colspan="7">Still no history in the database</td></tr>

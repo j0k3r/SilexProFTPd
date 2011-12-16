@@ -27,7 +27,7 @@
         <tbody>
         {% for history in file_histories %}
           <tr>
-            <td>{% if history.transfertype == 'STOR' %} <img src="/assets/images/up.png" /> {% else %} <img src="/assets/images/down.png" /> {% endif %}</td>
+            <td>{% if history.transfertype == 'STOR' %} <img src="/assets/images/up.png" title="STOR" /> {% else %} <img src="/assets/images/down.png" title="RETR" /> {% endif %}</td>
             <td><a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a></td>
             <td>{{ history.transferdate }}</td>
             <td>{{ history.transfersize|byte2size }}</td>

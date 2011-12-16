@@ -1,0 +1,38 @@
+{# file_most_dl.twig #}
+{% extends 'layout.twig' %}
+{% block title %}Most downloaded files{% endblock %}
+{% block content %}
+
+  <div class="row">
+    <div class="span16">
+      <h2>Most downloaded files</h2>
+      <br/>
+
+      <table id="sort-users" class="bordered-table zebra-striped">
+        <thead>
+          <tr>
+            <th>T</th>
+            <th>Nb</th>
+            <th>Filename</th>
+            <th>Size</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for file in files %}
+          <tr>
+            <td>{% if file.transfertype == 'STOR' %} <img src="/assets/images/up.png" title="STOR" /> {% else %} <img src="/assets/images/down.png" title="RETR" /> {% endif %}</td>
+            <td>{{ file.historycount }}</td>
+            <td>{{ file.filename }}</td>
+            <td>{{ file.transfersize|byte2size }}</td>
+            <td>{{ file.maxdate }}</td>
+          </tr>
+        {% else %}
+          <tr><td colspan="7">Still no history in the database</td></tr>
+        {% endfor %}
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+{% endblock %}

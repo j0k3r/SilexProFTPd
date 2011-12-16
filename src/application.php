@@ -257,6 +257,7 @@ $app->get('/transfer/{id}/{filename}', function($filename, $id) use ($app) {
 })->assert('filename', '.*')
   ->bind('file_transfer');
 
+
 // Error log
 $app->get('/error', function() use ($app) {
   $sql          = "SELECT ue.*, ue.id as user_event_id, u.fullname, u.id as user_id FROM users u, userevents ue WHERE u.username = ue.username ORDER BY ue.id DESC LIMIT 100";
@@ -264,6 +265,17 @@ $app->get('/error', function() use ($app) {
 
   return $app['twig']->render('error.twig', array('user_events' => $user_events, 'active' => 'error'));
 })->bind('error');
+
+
+// Most downloaded files
+$app->get('/most-downloaded', function() use ($app) {
+  $sql = "SELECT filename, transfertype, transfersize, COUNT(filename) AS historycount, MAX(transferdate) as maxdate ";
+  $sql .= "FROM history WHERE transfertype = 'RETR' ";
+  $sql .= "GROUP BY filename, transfertype, transfersize HAVING historycount > 1 ORDER BY historycount DESC LIMIT 100";
+  $files  = $app['db']->fetchAll($sql);
+
+  return $app['twig']->render('file_most_dl.twig', array('files' => $files, 'active' => 'transfer'));
+})->bind('most_dl');
 
 
 // homepage + statistics

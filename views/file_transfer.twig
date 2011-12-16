@@ -29,7 +29,7 @@
           <tr>
             <td>{% if history.transfertype == 'STOR' %} <img src="/assets/images/up.png" /> {% else %} <img src="/assets/images/down.png" /> {% endif %}</td>
             <td><a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a></td>
-            <td>{{ history.transferdate|date('d/m/Y H:i:s') }}</td>
+            <td>{{ history.transferdate }}</td>
             <td>{{ history.transfersize|byte2size }}</td>
             <td>{{ history.transfertime|sec2hms }}</td>
             <td>{{ history.transferhost }}</td>
@@ -42,4 +42,18 @@
 
     </div>
   </div>
+
+  <script type="text/javascript" src="/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/jquery.tablesorter.min.js"></script>
+  <script >
+    $(function() {
+      $("table#sort-users").tablesorter({
+        headers: {
+          0: {sorter: false},
+          3: {sorter: false},
+          4: {sorter: false},
+        }
+      });
+    });
+  </script>
 {% endblock %}

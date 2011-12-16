@@ -5,6 +5,18 @@
 
   <div class="row">
     <div class="span16">
+      <p style="float: right">
+        {% if user %}
+          View only <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'STOR', 'id': user.id }) }}">upload</a>
+          or <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'RETR', 'id': user.id }) }}">download</a>
+          (<a href="{{ app.url_generator.generate('user_history', { 'id': user.id }) }}">reset</a>).
+        {% else %}
+          View only <a href="{{ app.url_generator.generate('history', { 'traffic': 'STOR' }) }}">upload</a>
+          or <a href="{{ app.url_generator.generate('history', { 'traffic': 'RETR' }) }}">download</a>
+          (<a href="{{ app.url_generator.generate('history') }}">reset</a>).
+        {% endif %}
+      </p>
+
       <h2>
         History <small><b>{{ histories|length }} actions found
         {% if user is defined %}
@@ -20,15 +32,19 @@
             <th>T</th>
             <th>User</th>
             <th>Filename</th>
-            <th>Transfersize</th>
+            <th>Transfer Size</th>
             <th>Date</th>
           </tr>
         </thead>
         <tbody>
         {% for history in histories %}
           <tr>
-            <td>{% if history.transfertype == 'STOR' %} <img src="/assets/images/up.png" /> {% else %} <img src="/assets/images/down.png" /> {% endif %}</td>
-            <td><a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a></td>
+            <td>{% if history.transfertype == 'STOR' %} <img src="/assets/images/up.png" title="STOR" /> {% else %} <img src="/assets/images/down.png" title="RETR" /> {% endif %}</td>
+            {% if user %}
+              <td><a href="{{ app.url_generator.generate('user_edit', { 'id': user.id }) }}">{{ history.username }}</a></td>
+            {% else %}
+              <td><a href="{{ app.url_generator.generate('user_edit', { 'id': history.user_id }) }}">{{ history.username }}</a></td>
+            {% endif %}
             <td style="word-break: break-all;">
               <a href="{{ app.url_generator.generate('history_view', { 'id': history.history_id }) }}">
                 {% if history.filename|length > 50%}

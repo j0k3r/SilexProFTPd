@@ -181,24 +181,45 @@ $app->get('/users', function() use ($app) {
 
 
 // History
-$app->get('/transfers', function() use ($app) {
-  $sql       = "SELECT h.*, h.id as history_id, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY h.id DESC LIMIT 100";
-  $histories = $app['db']->fetchAll($sql);
+$app->get('/transfers/{traffic}', function($traffic) use ($app) {
+  $sql       = 'SELECT h.*, h.id as history_id, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username';
+
+  $params = array();
+  if('STOR' == $traffic || 'RETR' == $traffic)
+  {
+    $sql .= ' WHERE h.transfertype = ?';
+    $params = array($traffic);
+  }
+
+  $sql .= ' ORDER BY h.id DESC LIMIT 100';
+  $histories = $app['db']->fetchAll($sql, $params);
 
   return $app['twig']->render('history.twig', array('histories' => $histories, 'active' => 'transfer'));
-})->bind('history');
+})->value('traffic', 'ALL')
+  ->bind('history');
 
 
 // User history
-$app->get('/user/{id}/transfer', function($id) use ($app) {
+$app->get('/user/{id}/transfer/{traffic}', function($id, $traffic) use ($app) {
   $sql    = "SELECT * FROM `users` WHERE id = ?";
   $user   = $app['db']->fetchAssoc($sql, array((int) $id));
 
-  $sql        = "SELECT *, id as history_id FROM `history` WHERE username = ? ORDER BY id DESC LIMIT 100";
-  $histories  = $app['db']->fetchAll($sql, array($user['username']));
+  $sql    = "SELECT *, id as history_id FROM `history` h WHERE username = ?";
+
+  $params = array($user['username']);
+  if('STOR' == $traffic || 'RETR' == $traffic)
+  {
+    $sql .= ' AND h.transfertype = ?';
+    $params = array_merge($params, array($traffic));
+  }
+
+  $sql .= ' ORDER BY h.id DESC LIMIT 100';
+
+  $histories  = $app['db']->fetchAll($sql, $params);
 
   return $app['twig']->render('history.twig', array('histories' => $histories, 'user' => $user, 'active' => 'transfer'));
 })->assert('id', '\d+')
+  ->value('traffic', 'ALL')
   ->bind('user_history');
 
 
@@ -237,7 +258,7 @@ $app->get('/', function() use ($app) {
     'download'      => $app['db']->fetchAssoc("SELECT SUM(transfersize) AS nb FROM `history` WHERE transfertype = 'RETR'"),
   );
 
-  $activities = $app['db']->fetchAll('SELECT h.id, h.username, h.transfertype, h.transferdate, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY id DESC LIMIT 0, 10');
+  $activities = $app['db']->fetchAll('SELECT h.id, h.username, h.transfertype, h.transferdate, h.filename, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY id DESC LIMIT 0, 10');
 
   return $app['twig']->render('index.twig', array('data' => $data, 'activities' => $activities, 'active' => 'home'));
 })->bind('homepage');

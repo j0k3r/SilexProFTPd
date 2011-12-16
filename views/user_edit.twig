@@ -40,8 +40,8 @@
 
       <h3>Actions related</h3>
       <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id }) }}">View last activities</a></p>
-      <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id }) }}">View upload transfers</a></p>
-      <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id }) }}">View download transfers</a></p>
+      <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id, 'traffic': 'STOR' }) }}">View upload transfers</a></p>
+      <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id, 'traffic': 'RETR' }) }}">View download transfers</a></p>
       <p></p>
     </div>
   </div>

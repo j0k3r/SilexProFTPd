@@ -1,0 +1,21 @@
+<?php
+
+// Databases
+$app['db.options'] = array(
+  'driver'  => 'pdo_mysql',
+  'host'    => 'localhost',
+  'dbname'  => 'ftp',
+  'user'    => 'root',
+  'password'=> 'root'
+);
+
+// Debug
+$app['debug'] = true;
+
+// Log
+$app['monolog.logfile']     = __DIR__ . '/../log/silexproftpd.log';
+$app['monolog.name']        = 'silexproftpd';
+$app['monolog.level']       = 300;
+
+// Crypt/hash method (only SQL function accepted for now)
+$app['hash_method']         = 'ENCRYPT';

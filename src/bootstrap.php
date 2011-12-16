@@ -4,8 +4,6 @@ require_once __DIR__.'/../vendor/silex.phar';
 
 $app = new Silex\Application();
 
-require __DIR__ . '/config.php';
-
 use Silex\Provider\SymfonyBridgesServiceProvider;
 use Silex\Provider\FormServiceProvider;
 use Silex\Provider\SessionServiceProvider;
@@ -46,9 +44,6 @@ require_once __DIR__.'/customTwigFilter.php';
 // Register Monolog extension
 $app->register(new MonologServiceProvider(), array(
   'monolog.class_path'    => __DIR__ . '/../vendor/monolog/src',
-  'monolog.logfile'       => __DIR__ . '/../log/'.$app['monolog.filename'].'.log',
-  'monolog.name'          => $app['monolog.filename'],
-  'monolog.level'         => $app['monolog.loglevel']
 ));
 
 // Register UrlGenerator
@@ -56,16 +51,15 @@ $app->register(new Silex\Provider\UrlGeneratorServiceProvider());
 
 // Register Doctrine
 $app->register(new Silex\Provider\DoctrineServiceProvider(), array(
-  'db.options'  => array(
-    'driver'  => $app['db.config.driver'],
-    'host'    => $app['db.config.host'],
-    'dbname'  => $app['db.config.dbname'],
-    'user'    => $app['db.config.user'],
-    'password'=> $app['db.config.password']
-  ),
   'db.dbal.class_path'    => __DIR__.'/../vendor/Doctrine/dbal/lib',
   'db.common.class_path'  => __DIR__.'/../vendor/Doctrine/common/lib',
 ));
+
+if (!file_exists(__DIR__.'/config.php')) {
+  throw new RuntimeException('You must create your own configuration file ("src/config.php"). See "src/config.php.dist" for an example config file.');
+}
+
+require __DIR__ . '/config.php';
 
 // Application error handling
 $app->error(function(\Exception $e) use ($app)

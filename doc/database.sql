@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
 CREATE TABLE IF NOT EXISTS `history` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(15) DEFAULT NULL,
-  `filename` varchar(100) DEFAULT NULL,
+  `filename` varchar(255) DEFAULT NULL,
   `transfertype` varchar(10) DEFAULT NULL,
   `transfersize` int(11) DEFAULT NULL,
   `transferhost` varchar(30) DEFAULT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS `history` (
   `transferdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11507 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Contenu de la table `history`
@@ -86,7 +86,7 @@ CREATE TABLE IF NOT EXISTS `userevents` (
   `description` varchar(255) DEFAULT NULL,
   `eventdate` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3579 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Contenu de la table `userevents`
@@ -107,8 +107,8 @@ CREATE TABLE IF NOT EXISTS `users` (
   `valid` smallint(6) DEFAULT '0',
   `count` int(11) DEFAULT '0',
   `lastlogin` datetime DEFAULT NULL,
-  `homedir` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
+  `homedir` varchar(255) DEFAULT NULL,
+  `email` varchar(255) DEFAULT NULL,
   `frate` tinyint(4) NOT NULL DEFAULT '0',
   `fcred` tinyint(4) NOT NULL DEFAULT '0',
   `brate` tinyint(4) NOT NULL DEFAULT '0',
@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `bretr` bigint(64) NOT NULL DEFAULT '0',
   PRIMARY KEY (`username`),
   UNIQUE KEY `id_2` (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=166 ;
+) ENGINE=MyISAM  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Contenu de la table `users`

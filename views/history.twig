@@ -7,12 +7,14 @@
     <div class="span16">
       <p style="float: right">
         {% if user %}
-          View only <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'STOR', 'id': user.id }) }}">upload</a>
-          or <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'RETR', 'id': user.id }) }}">download</a>
+          View only <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'STOR', 'id': user.id }) }}">upload</a>,
+          <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'RETR', 'id': user.id }) }}">download</a>
+          or <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'DELE', 'id': user.id }) }}">delete</a>
           (<a href="{{ app.url_generator.generate('user_history', { 'id': user.id }) }}">reset</a>).
         {% else %}
-          View only <a href="{{ app.url_generator.generate('history', { 'traffic': 'STOR' }) }}">upload</a>
-          or <a href="{{ app.url_generator.generate('history', { 'traffic': 'RETR' }) }}">download</a>
+          View only <a href="{{ app.url_generator.generate('history', { 'traffic': 'STOR' }) }}">upload</a>,
+          <a href="{{ app.url_generator.generate('history', { 'traffic': 'RETR' }) }}">download</a>
+          or <a href="{{ app.url_generator.generate('history', { 'traffic': 'DELE' }) }}">delete</a>
           (<a href="{{ app.url_generator.generate('history') }}">reset</a>).
         {% endif %}
       </p>
@@ -39,7 +41,7 @@
         <tbody>
         {% for history in histories %}
           <tr>
-            <td>{% if history.transfertype == 'STOR' %} <img src="/assets/images/up.png" title="STOR" /> {% else %} <img src="/assets/images/down.png" title="RETR" /> {% endif %}</td>
+            <td>{{ history.transfertype|transfer_type2image|raw }}</td>
             {% if user %}
               <td><a href="{{ app.url_generator.generate('user_edit', { 'id': user.id }) }}">{{ history.username }}</a></td>
             {% else %}

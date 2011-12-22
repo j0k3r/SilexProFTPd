@@ -169,7 +169,19 @@ Array
   return '<span class="tooltip" data-content="'.$string.'" data-original-title="Full filename">'.$newString.'</span>';
 }
 
-$app['twig']->addFilter('byte2size', new Twig_Filter_Function('byte2size'));
-$app['twig']->addFilter('sec2hms', new Twig_Filter_Function('sec2hms'));
+function transfer_type2image($transfer)
+{
+  switch($transfer)
+  {
+    case "STOR":  return '<img src="/assets/images/up.png" title="STOR" />'; break;
+    case "RETR":  return '<img src="/assets/images/down.png" title="RETR" />'; break;
+    case "DELE":  return '<img src="/assets/images/delete.png" title="DELE" />'; break;
+    default:      return $ransfer;
+  }
+}
+
+$app['twig']->addFilter('byte2size',                 new Twig_Filter_Function('byte2size'));
+$app['twig']->addFilter('sec2hms',                   new Twig_Filter_Function('sec2hms'));
 $app['twig']->addFilter('distance_of_time_in_words', new Twig_Filter_Function('distance_of_time_in_words'));
-$app['twig']->addFilter('trunk_tooltip', new Twig_Filter_Function('trunk_tooltip'));
+$app['twig']->addFilter('trunk_tooltip',             new Twig_Filter_Function('trunk_tooltip'));
+$app['twig']->addFilter('transfer_type2image',       new Twig_Filter_Function('transfer_type2image'));

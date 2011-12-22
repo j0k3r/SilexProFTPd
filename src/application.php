@@ -196,7 +196,7 @@ $app->get('/transfers/{traffic}', function($traffic) use ($app) {
   $sql       = 'SELECT h.*, h.id as history_id, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username';
 
   $params = array();
-  if('STOR' == $traffic || 'RETR' == $traffic)
+  if('STOR' == $traffic || 'RETR' == $traffic || 'DELE' == $traffic)
   {
     $sql .= ' WHERE h.transfertype = ?';
     $params = array($traffic);
@@ -218,7 +218,7 @@ $app->get('/user/{id}/transfer/{traffic}', function($id, $traffic) use ($app) {
   $sql    = "SELECT *, id as history_id FROM `history` h WHERE username = ?";
 
   $params = array($user['username']);
-  if('STOR' == $traffic || 'RETR' == $traffic)
+  if('STOR' == $traffic || 'RETR' == $traffic || 'DELE' == $traffic)
   {
     $sql .= ' AND h.transfertype = ?';
     $params = array_merge($params, array($traffic));

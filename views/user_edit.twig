@@ -40,8 +40,9 @@
 
       <h3>Actions related</h3>
       <p><a class="btn success" href="{{ app.url_generator.generate('user_history', { 'id': user.id }) }}">View last activities</a></p>
-      <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id, 'traffic': 'STOR' }) }}">View <b>upload</b> transfers</a></p>
-      <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id, 'traffic': 'RETR' }) }}">View <b>download</b> transfers</a></p>
+      <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id, 'traffic': 'STOR' }) }}">View <b>upload</b> activities</a></p>
+      <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id, 'traffic': 'RETR' }) }}">View <b>download</b> activities</a></p>
+      <p><a class="btn info" href="{{ app.url_generator.generate('user_history', { 'id': user.id, 'traffic': 'DELE' }) }}">View <b>deleted</b> activities</a></p>
       <p></p>
     </div>
   </div>

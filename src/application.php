@@ -196,7 +196,7 @@ $app->get('/transfers/{traffic}', function($traffic) use ($app) {
   $sql       = 'SELECT h.*, h.id as history_id, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username';
 
   $params = array();
-  if('STOR' == $traffic || 'RETR' == $traffic || 'DELE' == $traffic)
+  if(array_key_exists($traffic, $app['transfer_type']))
   {
     $sql .= ' WHERE h.transfertype = ?';
     $params = array($traffic);
@@ -205,7 +205,7 @@ $app->get('/transfers/{traffic}', function($traffic) use ($app) {
   $sql .= ' ORDER BY h.id DESC LIMIT 100';
   $histories = $app['db']->fetchAll($sql, $params);
 
-  return $app['twig']->render('history.twig', array('histories' => $histories, 'active' => 'transfer'));
+  return $app['twig']->render('history.twig', array('histories' => $histories, 'active' => 'transfer', 'alltypes' => $app['transfer_type']));
 })->value('traffic', 'ALL')
   ->bind('history');
 
@@ -218,7 +218,7 @@ $app->get('/user/{id}/transfer/{traffic}', function($id, $traffic) use ($app) {
   $sql    = "SELECT *, id as history_id FROM `history` h WHERE username = ?";
 
   $params = array($user['username']);
-  if('STOR' == $traffic || 'RETR' == $traffic || 'DELE' == $traffic)
+  if(array_key_exists($traffic, $app['transfer_type']))
   {
     $sql .= ' AND h.transfertype = ?';
     $params = array_merge($params, array($traffic));
@@ -228,7 +228,7 @@ $app->get('/user/{id}/transfer/{traffic}', function($id, $traffic) use ($app) {
 
   $histories  = $app['db']->fetchAll($sql, $params);
 
-  return $app['twig']->render('history.twig', array('histories' => $histories, 'user' => $user, 'active' => 'transfer'));
+  return $app['twig']->render('history.twig', array('histories' => $histories, 'user' => $user, 'active' => 'transfer', 'alltypes' => $app['transfer_type']));
 })->assert('id', '\d+')
   ->value('traffic', 'ALL')
   ->bind('user_history');

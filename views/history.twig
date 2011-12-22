@@ -6,16 +6,22 @@
   <div class="row">
     <div class="span16">
       <p style="float: right">
+        View only
+        <select class="medium" name="transfer-type" id="transfer-type">
+          <option></option>
+        {% for key, type in alltypes %}
+          {% if user %}
+            <option value="{{ app.url_generator.generate('user_history', { 'traffic': key, 'id': user.id }) }}">{{ type }}</option>
+          {% else %}
+            <option value="{{ app.url_generator.generate('history', { 'traffic': key }) }}">{{ type }}</option>
+          {% endif %}
+        {% endfor %}
+        </select>
+        or
         {% if user %}
-          View only <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'STOR', 'id': user.id }) }}">upload</a>,
-          <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'RETR', 'id': user.id }) }}">download</a>
-          or <a href="{{ app.url_generator.generate('user_history', { 'traffic': 'DELE', 'id': user.id }) }}">delete</a>
-          (<a href="{{ app.url_generator.generate('user_history', { 'id': user.id }) }}">reset</a>).
+          <a href="{{ app.url_generator.generate('user_history', { 'id': user.id }) }}">reset</a>
         {% else %}
-          View only <a href="{{ app.url_generator.generate('history', { 'traffic': 'STOR' }) }}">upload</a>,
-          <a href="{{ app.url_generator.generate('history', { 'traffic': 'RETR' }) }}">download</a>
-          or <a href="{{ app.url_generator.generate('history', { 'traffic': 'DELE' }) }}">delete</a>
-          (<a href="{{ app.url_generator.generate('history') }}">reset</a>).
+          <a href="{{ app.url_generator.generate('history') }}">reset</a>
         {% endif %}
       </p>
 
@@ -69,6 +75,7 @@
   </div>
 
   <script type="text/javascript" src="/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="/assets/application.js"></script>
   <script type="text/javascript" src="/assets/bootstrap/js/bootstrap-twipsy.js"></script>
   <script type="text/javascript" src="/assets/bootstrap/js/bootstrap-popover.js"></script>
   <script type="text/javascript" src="/assets/jquery.tablesorter.min.js"></script>

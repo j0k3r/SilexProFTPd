@@ -176,7 +176,9 @@ function transfer_type2image($transfer)
     case "STOR":  return '<img src="/assets/images/up.png" title="STOR" />'; break;
     case "RETR":  return '<img src="/assets/images/down.png" title="RETR" />'; break;
     case "DELE":  return '<img src="/assets/images/delete.png" title="DELE" />'; break;
-    default:      return $ransfer;
+    case "MKD":   return '<img src="/assets/images/folder.png" title="MKD" />'; break;
+    case "RNTO":  return '<img src="/assets/images/pencil.png" title="RNTO" />'; break;
+    default:      return $transfer;
   }
 }
 

@@ -19,3 +19,11 @@ $app['monolog.level']       = 300;
 
 // Crypt/hash method (only SQL function accepted for now)
 $app['hash_method']         = 'ENCRYPT';
+
+$app['transfer_type']       = array(
+  'STOR' => 'upload',
+  'RETR' => 'download',
+  'MKD'  => 'directory',
+  'DELE' => 'delete',
+  'RNTO' => 'rename'
+);

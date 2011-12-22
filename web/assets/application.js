@@ -8,16 +8,16 @@ $(document).ready(function() {
         var elements = $('.section-toc');
         var initials = [];
         function position(i, initial) {
-            var element = initial.element
-              , container = initial.container
-              , sp = window.scrollY + padding
-              , ep = element.position().top
-              , eh = element.height()
-              , ct = container.position().top
-              , ch = container.height()
-              , cp = element.css('position')
-              , mp = ct + ch - eh
-              , em = element.position().left
+            var element = initial.element;
+            var container = initial.container;
+            var sp = window.scrollY + padding;
+            var ep = element.position().top;
+            var eh = element.height();
+            var ct = container.position().top;
+            var ch = container.height();
+            var cp = element.css('position');
+            var mp = ct + ch - eh;
+            var em = element.position().left
             ;
             if (sp > ep && sp < mp && cp !== "fixed") {
                 element.css('position', 'fixed').css('top', padding).css('left', em).css('margin-top', initial.margintop);
@@ -30,18 +30,27 @@ $(document).ready(function() {
             }
         }
         elements.each(function(i, element) {
-            var element = $(element);
+            var n_element = $(element);
             initials.push({
-                element:    element,
-                container:  element.parents(containerSelector),
-                position:   element.css('position'),
-                top:        element.position().top,
-                left:       element.position().left,
-                margintop:  element.css('margin-top')
+                element:    n_element,
+                container:  n_element.parents(containerSelector),
+                position:   n_element.css('position'),
+                top:        n_element.position().top,
+                left:       n_element.position().left,
+                margintop:  n_element.css('margin-top')
             });
         });
         window.onscroll = function() {
             $(initials).each(position);
-        }
+        };
     })(window);
-})
+
+    // bind change event to select
+    $('#transfer-type').bind('change', function () {
+      var url = $(this).val(); // get selected value
+      if (url) { // require a URL
+        window.location = url; // redirect
+      }
+      return false;
+    });
+});

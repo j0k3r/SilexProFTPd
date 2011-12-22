@@ -47,7 +47,7 @@
             {% endif %}
             <td style="word-break: break-all;">
               <a href="{{ app.url_generator.generate('history_view', { 'id': history.history_id }) }}">
-                {% if history.filename|length > 50%}
+                {% if history.filename|length > 50 %}
                   {{ history.filename|trunk_tooltip|raw }}
                 {% else %}
                   {{ history.filename }}

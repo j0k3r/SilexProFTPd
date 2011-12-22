@@ -127,9 +127,44 @@ function distance_of_time_in_words($from_time, $to_time = null, $include_seconds
 
 function trunk_tooltip($string)
 {
-  preg_match('/\/([a-zA-Z.-]*)\/(.*)\/(.*)/i', $string, $matches);
+/*
+Array
+(
+    [0] => /www/myfolder/mysubfolder/myfile.txt
+    [1] => www
+    [2] => myfolder/mysubfolder/
+    [3] => myfolder/mysubfolder
+    [4] => myfile.txt
+)
 
-  $newString = '/'.$matches[1].'/.../'.$matches[count($matches)-1];
+Array
+(
+    [0] => /www/MICHAEL CALFAN vs MASTERS AT WORK - Love Resurrection (CARL DUTT Bootleg).mp3
+    [1] => www
+    [2] =>
+    [3] =>
+    [4] => MICHAEL CALFAN vs MASTERS AT WORK - Love Resurrection (CARL DUTT Bootleg).mp3
+)
+*/
+
+  preg_match('/\/([a-zA-Z.-]*)\/((.*)\/)?(.*)/i', $string, $matches);
+
+  // cut too long single file
+  $file = $matches[count($matches)-1];
+  if(strlen($file) > 50)
+  {
+    $file = substr($file, (strlen($file) - 40), strlen($file));
+  }
+
+  // only file at the end?
+  $trail = '/';
+  if(empty($matches[2]) && empty($matches[3]))
+  {
+    $trail = ' ';
+  }
+
+  $newString = '/'.$matches[1].'/...'.$trail.$file;
+
 
   return '<span class="tooltip" data-content="'.$string.'" data-original-title="Full filename">'.$newString.'</span>';
 }

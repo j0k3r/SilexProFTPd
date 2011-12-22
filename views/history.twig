@@ -20,7 +20,7 @@
       </p>
 
       <h2>
-        History <small><b>{{ histories|length }} actions found
+        History <small><b>{{ histories|length }} action{% if histories|length > 1 %}s{% endif %} found
         {% if user is defined %}
           from user `<a href="{{ app.url_generator.generate('user_edit', { 'id': user.id }) }}">{{ user.username }}</a>`
         {% endif %}

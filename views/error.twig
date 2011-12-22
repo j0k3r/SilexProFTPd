@@ -5,7 +5,10 @@
 
   <div class="row">
     <div class="span12">
-      <h2>Error log</h2>
+      <h2>
+        Error log
+        <small><b>{{ user_events|length }} action{% if user_events|length > 1 %}s{% endif %} found
+      </h2>
       <br/>
 
       <table id="sort-users" class="bordered-table zebra-striped">

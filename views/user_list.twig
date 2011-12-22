@@ -8,7 +8,7 @@
       <div style="float: right">
         <a class="btn success" href="{{ app.url_generator.generate('user_new') }}">New user</a>
       </div>
-      <h2>User list <small><b>{{ users|length }} users found</b></small></h2>
+      <h2>User list <small><b>{{ users|length }} user{% if users|length > 1 %}s{% endif %} found</b></small></h2>
       <br/>
 
       <table id="sort-users" class="bordered-table zebra-striped">

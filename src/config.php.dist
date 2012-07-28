@@ -15,6 +15,8 @@ $app['debug'] = true;
 // Log
 $app['monolog.logfile']     = __DIR__ . '/../log/silexproftpd.log';
 $app['monolog.name']        = 'silexproftpd';
+// see appropriate level here: https://github.com/Seldaek/monolog/blob/master/src/Monolog/Logger.php
+// 300 = WARNING, 100 = ALL, etc ...
 $app['monolog.level']       = 300;
 
 // Crypt/hash method (only SQL function accepted for now)

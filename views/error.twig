@@ -48,9 +48,9 @@
     </div>
   </div>
 
-  <script type="text/javascript" src="/assets/jquery.min.js"></script>
-  <script type="text/javascript" src="/assets/application.js"></script>
-  <script type="text/javascript" src="/assets/jquery.tablesorter.min.js"></script>
+  <script type="text/javascript" src="{{ app.static_host }}/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="{{ app.static_host }}/assets/application.js"></script>
+  <script type="text/javascript" src="{{ app.static_host }}/assets/jquery.tablesorter.min.js"></script>
   <script >
     $(function() {
       $("table#sort-users").tablesorter();

@@ -169,15 +169,15 @@ Array
   return '<span class="tooltip" data-content="'.$string.'" data-original-title="Full filename">'.$newString.'</span>';
 }
 
-function transfer_type2image($transfer)
+function transfer_type2image($transfer, $static_host)
 {
   switch($transfer)
   {
-    case "STOR":  return '<img src="/assets/images/up.png" title="STOR" />'; break;
-    case "RETR":  return '<img src="/assets/images/down.png" title="RETR" />'; break;
-    case "DELE":  return '<img src="/assets/images/delete.png" title="DELE" />'; break;
-    case "MKD":   return '<img src="/assets/images/folder.png" title="MKD" />'; break;
-    case "RNTO":  return '<img src="/assets/images/pencil.png" title="RNTO" />'; break;
+    case "STOR":  return '<img src='.$static_host.'"assets/images/up.png" title="STOR" />'; break;
+    case "RETR":  return '<img src='.$static_host.'"assets/images/down.png" title="RETR" />'; break;
+    case "DELE":  return '<img src='.$static_host.'"assets/images/delete.png" title="DELE" />'; break;
+    case "MKD":   return '<img src='.$static_host.'"assets/images/folder.png" title="MKD" />'; break;
+    case "RNTO":  return '<img src='.$static_host.'"assets/images/pencil.png" title="RNTO" />'; break;
     default:      return $transfer;
   }
 }

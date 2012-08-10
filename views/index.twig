@@ -43,8 +43,8 @@
         <li><b>{{ data.nb_connexions.sum|default(0) }}</b> total connexions</li>
         <li><b>{{ data.transfer.nb }}</b> total activities</li>
         <li><b>{{ data.transfer.size|byte2size }}</b> data transfered</li>
-        <li class="arrow-up"><b>{{ data.uploaded.nb|byte2size }}</b> uploaded <img src="/assets/images/up.png" /></li>
-        <li class="arrow-down"><b>{{ data.download.nb|byte2size }}</b> downloaded <img src="/assets/images/down.png" /></li>
+        <li class="arrow-up"><b>{{ data.uploaded.nb|byte2size }}</b> uploaded <img src="{{ app.static_host }}/assets/images/up.png" /></li>
+        <li class="arrow-down"><b>{{ data.download.nb|byte2size }}</b> downloaded <img src="{{ app.static_host }}/assets/images/down.png" /></li>
       </ul>
 
       <br/>

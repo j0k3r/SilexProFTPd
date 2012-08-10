@@ -34,8 +34,8 @@
       <li><b>{{ user.count }}</b> total connexions</li>
       <li><b>{{ data.transfer.nb }}</b> total activities</li>
       <li><b>{{ data.transfer.size|byte2size }}</b> data transfered</li>
-      <li class="arrow-up"><b>{{ data.uploaded.nb|byte2size }}</b> uploaded <img src="/assets/images/up.png" /></li>
-      <li class="arrow-down"><b>{{ data.download.nb|byte2size }}</b> downloaded <img src="/assets/images/down.png" /></li>
+      <li class="arrow-up"><b>{{ data.uploaded.nb|byte2size }}</b> uploaded <img src="{{ app.static_host }}/assets/images/up.png" /></li>
+      <li class="arrow-down"><b>{{ data.download.nb|byte2size }}</b> downloaded <img src="{{ app.static_host }}/assets/images/down.png" /></li>
       <br/>
 
       <h3>Actions related</h3>
@@ -47,8 +47,8 @@
     </div>
   </div>
 
-  <script type="text/javascript" src="/assets/jquery.min.js"></script>
-  <script type="text/javascript" src="/assets/bootstrap/js/bootstrap-alerts.js"></script>
+  <script type="text/javascript" src="{{ app.static_host }}/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="{{ app.static_host }}/assets/bootstrap/js/bootstrap-alerts.js"></script>
   <script >
     $(function() {
       $('a.delete-user').click(function() {

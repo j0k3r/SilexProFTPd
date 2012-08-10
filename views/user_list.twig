@@ -35,7 +35,7 @@
             <td>{{ user.historySizeCount|byte2size }}</td>
             <td>
               <a title="activate / deactivate" href="{{ app.url_generator.generate('user_active', { 'id': user.id }) }}">
-                {% if user.valid %} <img src="/assets/images/tick.png" /> {% else %} <img src="/assets/images/tock.png" /> {% endif %}
+                {% if user.valid %} <img src="{{ app.static_host }}/assets/images/tick.png" /> {% else %} <img src="{{ app.static_host }}/assets/images/tock.png" /> {% endif %}
               </a>
             </td>
             <td>
@@ -52,8 +52,8 @@
     </div>
   </div>
 
-  <script type="text/javascript" src="/assets/jquery.min.js"></script>
-  <script type="text/javascript" src="/assets/jquery.tablesorter.min.js"></script>
+  <script type="text/javascript" src="{{ app.static_host }}/assets/jquery.min.js"></script>
+  <script type="text/javascript" src="{{ app.static_host }}/assets/jquery.tablesorter.min.js"></script>
   <script >
     $(function() {
       $("table#sort-users").tablesorter({

@@ -21,7 +21,7 @@
         <tbody>
         {% for file in files %}
           <tr>
-            <td>{% if file.transfertype == 'STOR' %} <img src="/assets/images/up.png" title="STOR" /> {% else %} <img src="/assets/images/down.png" title="RETR" /> {% endif %}</td>
+            <td>{% if file.transfertype == 'STOR' %} <img src="{{ app.static_host }}/assets/images/up.png" title="STOR" /> {% else %} <img src="{{ app.static_host }}/assets/images/down.png" title="RETR" /> {% endif %}</td>
             <td>{{ file.historycount }}</td>
             <td>{{ file.filename }}</td>
             <td>{{ file.transfersize|byte2size }}</td>

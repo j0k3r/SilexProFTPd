@@ -47,7 +47,7 @@
         <tbody>
         {% for history in histories %}
           <tr>
-            <td>{{ history.transfertype|transfer_type2image|raw }}</td>
+            <td><img src="{{ app.static_host }}/{{ history.transfertype|transfer_type2image|raw }}" title="{{ history.transfertype }}" /></td>
             {% if user %}
               <td><a href="{{ app.url_generator.generate('user_edit', { 'id': user.id }) }}">{{ history.username }}</a></td>
             {% else %}

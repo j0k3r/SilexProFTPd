@@ -23,7 +23,7 @@
           <tr>
             <td><a href="{{ app.url_generator.generate('file_transfer', { 'filename': activity.filename, 'id': activity.id }) }}">{{ activity.id }}</a></td>
             <td><a href="{{ app.url_generator.generate('user_edit', { 'id': activity.user_id }) }}">{{ activity.username }}</a></td>
-            <td>{{ activity.transfertype|transfer_type2image|raw }}</td>
+            <td><img src="{{ app.static_host }}/{{ activity.transfertype|transfer_type2image|raw }}" title="{{ activity.transfertype }}" /></td>
             <td>{{ activity.transfersize|byte2size }}</td>
             <td>{{ activity.transferdate|distance_of_time_in_words }}</td>
           </tr>

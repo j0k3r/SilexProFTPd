@@ -12,6 +12,9 @@ $app['db.options'] = array(
 // Debug
 $app['debug'] = true;
 
+// custom path to all static (leave empty to use /)
+$app['static_host'] = '';
+
 // Log
 $app['monolog.logfile']     = __DIR__ . '/../log/silexproftpd.log';
 $app['monolog.name']        = 'silexproftpd';

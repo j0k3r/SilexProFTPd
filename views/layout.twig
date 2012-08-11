@@ -18,7 +18,7 @@
     <div class="topbar">
       <div class="fill">
         <div class="container">
-          <a class="brand" href="/">SilexProFTPd</a>
+          <a class="brand" href="{{ app.url_generator.generate('homepage') }}">SilexProFTPd</a>
           <ul class="nav">
             <li {{ active == 'home' ? 'class="active"' : '' }}><a href="{{ app.url_generator.generate('homepage') }}">Home</a></li>
             <li {{ active == 'user_list' ? 'class="active"' : '' }}><a href="{{ app.url_generator.generate('user_list') }}">Users list</a></li>

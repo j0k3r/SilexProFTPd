@@ -20,7 +20,7 @@
         <div class="container">
           <a class="brand" href="/">SilexProFTPd</a>
           <ul class="nav">
-            <li {{ active == 'home' ? 'class="active"' : '' }}><a href="/">Home</a></li>
+            <li {{ active == 'home' ? 'class="active"' : '' }}><a href="{{ app.url_generator.generate('homepage') }}">Home</a></li>
             <li {{ active == 'user_list' ? 'class="active"' : '' }}><a href="{{ app.url_generator.generate('user_list') }}">Users list</a></li>
             <li {{ active == 'transfer' ? 'class="active"' : '' }}><a href="{{ app.url_generator.generate('history') }}">View transfer</a></li>
             <li {{ active == 'error' ? 'class="active"' : '' }}><a href="{{ app.url_generator.generate('error') }}">Error log</a></li>
@@ -31,7 +31,7 @@
     <div class="container">
       <div class="content">
         <div class="page-header">
-          <h1>Manage your ProFTPd server <small>with style and Silex</small></h1>
+          <h1>Manage your ProFTPd server <small>easily</small></h1>
         </div>
 
         {% if app.session.hasFlash('notice') %}

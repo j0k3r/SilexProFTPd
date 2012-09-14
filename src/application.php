@@ -289,7 +289,7 @@ $app->get('/', function() use ($app) {
     'download'      => $app['db']->fetchAssoc("SELECT SUM(transfersize) AS nb FROM `history` WHERE transfertype = 'RETR'"),
   );
 
-  $activities = $app['db']->fetchAll('SELECT h.id, h.username, h.transfertype, h.transferdate, h.filename, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY id DESC LIMIT 0, 10');
+  $activities = $app['db']->fetchAll('SELECT h.id, h.username, h.transfertype, h.transfersize, h.transferdate, h.filename, u.id as user_id FROM `history` h LEFT JOIN `users` u ON u.username = h.username ORDER BY id DESC LIMIT 0, 10');
 
   return $app['twig']->render('index.twig', array('data' => $data, 'activities' => $activities, 'active' => 'home'));
 })->bind('homepage');

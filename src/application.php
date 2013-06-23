@@ -132,7 +132,7 @@ $app->match('/user/{id}/edit', function ($id) use ($app) {
         $sql = "UPDATE `users` SET ";
         if(null !== $form->get('passwd')->getData())
         {
-          $sql = "passwd = ".$app['hash_method']."(?), ";
+          $sql .= "passwd = ".$app['hash_method']."(?), ";
           $params = array_merge(array($form->get('passwd')->getData()), $params);
         }
         $sql .= "fullname = ?, email = ?, valid = ?, homedir = ?, username = ? WHERE id = ?";

@@ -3,9 +3,7 @@
 require_once __DIR__ . '/bootstrap.php';
 
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\Form\FormBuilder;
 use Symfony\Component\Form\FormError;
-
 
 // New user
 $app->match('/user/new', function () use ($app) {

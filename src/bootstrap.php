@@ -41,6 +41,10 @@ $app->register(new TwigServiceProvider(), array(
 
 require_once __DIR__.'/customTwigFilter.php';
 
+$app->before(function() use ($app) {
+    $app['twig']->addExtension(new CustomTwigFilterExtension($app));
+});
+
 // Register Monolog extension
 $app->register(new MonologServiceProvider(), array(
   'monolog.class_path'    => __DIR__ . '/../vendor/monolog/src',

@@ -68,50 +68,16 @@ class CustomTwigFilterExtension extends \Twig_Extension
   }
 
   // from DateHelper.php
-  public function distance_of_time_in_words($from_time, $to_time = null, $include_seconds = true)
+  public function distance_of_time_in_words($from_time, $to_time = null)
   {
-    $from_time = strtotime($from_time);
-    $to_time = $to_time? $to_time: time();
-
-    $distance_in_minutes = floor(abs($to_time - $from_time) / 60);
-    $distance_in_seconds = floor(abs($to_time - $from_time));
+    $distance_in_minutes = floor(abs(($to_time ?: time()) - strtotime($from_time)) / 60);
 
     $string = '';
     $parameters = array();
 
     if ($distance_in_minutes <= 1)
     {
-      if (!$include_seconds)
-      {
-        $string = $distance_in_minutes == 0 ? 'less than a minute' : '1 minute';
-      }
-      else
-      {
-        if ($distance_in_seconds <= 5)
-        {
-          $string = 'less than 5 seconds';
-        }
-        else if ($distance_in_seconds >= 6 && $distance_in_seconds <= 10)
-        {
-          $string = 'less than 10 seconds';
-        }
-        else if ($distance_in_seconds >= 11 && $distance_in_seconds <= 20)
-        {
-          $string = 'less than 20 seconds';
-        }
-        else if ($distance_in_seconds >= 21 && $distance_in_seconds <= 40)
-        {
-          $string = 'half a minute';
-        }
-        else if ($distance_in_seconds >= 41 && $distance_in_seconds <= 59)
-        {
-          $string = 'less than a minute';
-        }
-        else
-        {
-          $string = '1 minute';
-        }
-      }
+      $string = $distance_in_minutes == 0 ? 'less than a minute' : '1 minute';
     }
     else if ($distance_in_minutes >= 2 && $distance_in_minutes <= 44)
     {
